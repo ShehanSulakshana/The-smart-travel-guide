@@ -37,3 +37,52 @@ travel(Start, Goal) :-
     ( show_nearest_hospital(Goal) -> true ; true ),
     writeln('\n# **********************************************').
 
+
+start :- main_menu.
+
+/* Menu */
+main_menu :-
+    repeat,
+    nl,
+    writeln('#======================================================#'),
+    writeln('>>>>          THE SMART TRAVEL GUIDE AGENT          <<<<'),
+    writeln('#======================================================#'),
+    writeln(''),
+    writeln('[1]. Find Route  '),
+    writeln('[2]. Show Tourist Attractions'),
+    writeln('[3]. Find Nearest Hotel'),
+    writeln('[4]. Find Nearest Hospital'),
+    writeln('[5]. Show Blocked Roads'),
+    writeln('[6]. EXIT'),
+    writeln(''),
+    write('[?]~ Select Option: '),
+    read(Choice),
+    process_choice(Choice),
+    Choice = 0,
+    !.
+
+process_choice(1) :-
+    nl, write('[?]~ Enter Start Location : '), read(Start),
+    write('[?]~ Enter Destination    : '), read(Goal),
+    travel(Start, Goal).
+
+process_choice(2) :-
+    nl, write('[?]~ Enter Location: '), read(Loc),
+    ( show_attractions(Loc) -> true ; writeln('[-] No attraction data found.') ).
+
+process_choice(3) :-
+    nl, write('[?]~ Enter Location: '), read(Loc),
+    ( show_best_hotel(Loc) -> true ; writeln('[-] No hotel data found.') ).
+
+process_choice(4) :-
+    nl, write('[?]~ Enter Location: '), read(Loc),
+    ( show_nearest_hospital(Loc) -> true ; writeln('[-] No hospital data found.') ).
+
+process_choice(5) :-
+    show_blocked_roads.
+
+process_choice(0) :-
+    writeln('\n[*] Exiting program. Safe travels!').
+
+process_choice(Choice > 6) :-
+    writeln('\n[!] Invalid Option! Pick 1, 2, 3, 4, 5, or 0.').
