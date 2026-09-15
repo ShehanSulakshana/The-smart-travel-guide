@@ -58,7 +58,7 @@ main_menu :-
     write('[?]~ Select Option: '),
     read(Choice),
     process_choice(Choice),
-    Choice = 0,
+    Choice == 6,
     !.
 
 process_choice(1) :-
@@ -81,8 +81,8 @@ process_choice(4) :-
 process_choice(5) :-
     show_blocked_roads.
 
-process_choice(0) :-
-    writeln('\n[*] Exiting program. Safe travels!').
+process_choice(6) :-
+    writeln('\n[*] Exiting program. Safe travels!'), !.
 
-process_choice(Choice > 6) :-
-    writeln('\n[!] Invalid Option! Pick 1, 2, 3, 4, 5, or 0.').
+process_choice(_) :-
+    writeln('\n[!] Invalid Option! Pick 1 - 6.').
