@@ -40,7 +40,23 @@ travel(Start, Goal) :-
 
 start :- main_menu.
 
-/* Menu */
+/* flow_confirmation */
+flow_confirmation(Status) :- 
+    sleep(2),
+    nl, nl,
+    writeln('[?] - Restart(1) / Exit (0) : '), read(FlowOption),
+    nl,
+    (
+        FlowOption = 0 ->
+            writeln('#- Thank you.'), nl,
+            Status = exit
+        ; FlowOption = 1 ->
+            sleep(2),
+            Status = continue
+        ; writeln('[Error] - Invalid input.'),
+            flow_confirmation(Status)   
+    ).
+
 main_menu :-
     repeat,
     nl,
@@ -48,7 +64,7 @@ main_menu :-
     writeln('>>>>          THE SMART TRAVEL GUIDE AGENT          <<<<'),
     writeln('#======================================================#'),
     writeln(''),
-    writeln('[1]. Find Route  '),
+    writeln('[1]. Find Route'),
     writeln('[2]. Show Tourist Attractions'),
     writeln('[3]. Find Nearest Hotel'),
     writeln('[4]. Find Nearest Hospital'),
@@ -57,32 +73,40 @@ main_menu :-
     writeln(''),
     write('[?]~ Select Option: '),
     read(Choice),
-    process_choice(Choice),
-    Choice == 6,
-    !.
+    process_choice(Choice, Status),
+    ( Status == exit ; Choice == 6 ),
+    !. 
 
-process_choice(1) :-
+
+process_choice(1, Status) :-
     nl, write('[?]~ Enter Start Location : '), read(Start),
     write('[?]~ Enter Destination    : '), read(Goal),
-    travel(Start, Goal).
+    travel(Start, Goal), 
+    flow_confirmation(Status).
 
-process_choice(2) :-
+process_choice(2, Status) :-
     nl, write('[?]~ Enter Location: '), read(Loc),
-    ( show_attractions(Loc) -> true ; writeln('[-] No attraction data found.') ).
+    ( show_attractions(Loc) -> true ; writeln('[-] No attraction data found.') ), 
+    flow_confirmation(Status).
 
-process_choice(3) :-
+process_choice(3, Status) :-
     nl, write('[?]~ Enter Location: '), read(Loc),
-    ( show_best_hotel(Loc) -> true ; writeln('[-] No hotel data found.') ).
+    ( show_best_hotel(Loc) -> true ; writeln('[-] No hotel data found.') ), 
+    flow_confirmation(Status).
 
-process_choice(4) :-
+process_choice(4, Status) :-
     nl, write('[?]~ Enter Location: '), read(Loc),
-    ( show_nearest_hospital(Loc) -> true ; writeln('[-] No hospital data found.') ).
+    ( show_nearest_hospital(Loc) -> true ; writeln('[-] No hospital data found.') ), 
+    flow_confirmation(Status).
 
-process_choice(5) :-
-    show_blocked_roads.
+process_choice(5, Status) :-
+    show_blocked_roads, 
+    flow_confirmation(Status).
 
-process_choice(6) :-
-    writeln('\n[*] Exiting program. Safe travels!'), !.
+process_choice(6, exit) :-
+    writeln('\n[*] Exiting program. Safe travels!').
 
-process_choice(_) :-
-    writeln('\n[!] Invalid Option! Pick 1 - 6.').
+process_choice(Choice, continue) :-
+    Choice > 6,
+    writeln('\n[!] Invalid Option! Pick 1-6.').
+
