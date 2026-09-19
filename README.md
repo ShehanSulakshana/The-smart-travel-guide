@@ -90,6 +90,9 @@ The-smart-travel-guide/
 | [Induwara Wanninayaka](https://github.com/InduwaraWanninayaka00) | Road, heuristic, and blocked-road data |
 | [Gayan Thusitha](https://github.com/GayanT500) | Hotel and hospital data |
 | [Sanath Wijesooriya](https://github.com/sanathw-sw) | Tourist-attraction data |
+| [Malindu Nethmal](https://github.com/Malindu15) | System Testing & QA |
+| [Harshana Wijekoon](https://github.com/HarshanaWijekoon) | System Testing & QA  |
+
 
 ## Copyright
 
